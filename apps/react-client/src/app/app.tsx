@@ -1,40 +1,66 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Ticket, User } from '@acme/shared-models';
+import {
+  Box,
+  Container,
+  Grid,
+  makeStyles,
+  Typography,
+} from '@material-ui/core';
+import Tickets from './components/tickets/tickets';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import theme from './theme';
+import TicketDetails from './components/ticket-details/ticket-details';
+import { Link as RouterLink } from 'react-router-dom';
 
-import styles from './app.module.css';
-import Tickets from './tickets/tickets';
+const useStyles = makeStyles((theme) => ({
+  container: {},
+  notFoundMessage: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+  },
+  appTitleText: {
+    textDecoration: 'none',
+    color: theme.palette.primary.main,
+  },
+}));
 
 const App = () => {
-  const [tickets, setTickets] = useState([] as Ticket[]);
-  const [users, setUsers] = useState([] as User[]);
-
-  // Very basic way to synchronize state with server.
-  // Feel free to use any state/fetch library you want (e.g. react-query, xstate, redux, etc.).
-  useEffect(() => {
-    async function fetchTickets() {
-      const data = await fetch('/api/tickets').then();
-      setTickets(await data.json());
-    }
-
-    async function fetchUsers() {
-      const data = await fetch('/api/users').then();
-      setUsers(await data.json());
-    }
-
-    fetchTickets();
-    fetchUsers();
-  }, []);
+  const classes = useStyles();
 
   return (
-    <div className={styles['app']}>
-      <h1>Ticketing App</h1>
-      <Routes>
-        <Route path="/" element={<Tickets tickets={tickets} />} />
-        {/* Hint: Try `npx nx g component TicketDetails --no-export` to generate this component  */}
-        <Route path="/:id" element={<h2>Details Not Implemented</h2>} />
-      </Routes>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Grid container>
+        <Grid item xs={12}>
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            flexDirection={'column'}
+            height="100%"
+          >
+            <Typography
+              className={classes.appTitleText}
+              variant="h3"
+              gutterBottom
+              component={RouterLink}
+              to={`/`}
+            >
+              Tickets App
+            </Typography>
+            <Routes>
+              <Route path="/" element={<Tickets />} />
+              <Route path="/:id" element={<TicketDetails />} />
+            </Routes>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
 };
 

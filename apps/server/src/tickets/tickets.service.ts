@@ -31,7 +31,7 @@ export class TicketsService {
   }
 
   async ticket(id: number): Promise<Ticket | null> {
-    return this.storedTickets.find((t) => t.id === id) ?? null;
+    return this.storedTickets.find((t) => t.id === +id) ?? null;
   }
 
   async newTicket(payload: { description: string }): Promise<Ticket> {
