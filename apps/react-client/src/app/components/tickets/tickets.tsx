@@ -116,7 +116,7 @@ export function Tickets() {
       </Box>
 
       {tickets && tickets.length > 0 && users.length > 0 ? (
-        <List>
+        <List data-testId='ticket-list'>
           {tickets
             .filter((t) => {
               return (

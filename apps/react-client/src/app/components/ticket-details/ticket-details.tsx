@@ -67,7 +67,7 @@ export function TicketDetails(props: TicketDetailsProps) {
   }, [ticket]);
 
   const { fetchData: updateCompleted } = useFetch(
-    `/api/tickets/${ticket?.id}/complete`
+    `/api/tickets/${id}/complete`
   );
 
   const handleSetCompleted = () => {

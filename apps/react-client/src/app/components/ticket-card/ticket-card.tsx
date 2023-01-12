@@ -93,6 +93,7 @@ const TicketCard = ({ ticket, users }: TicketCardProps) => {
 
   return (
     <Card
+      data-testid="ticket-card"
       className={classes.cardBox}
       onMouseEnter={() => setCardHovered(true)}
       onMouseLeave={() => setCardHovered(false)}
